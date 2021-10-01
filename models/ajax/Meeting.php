@@ -5,13 +5,21 @@ use yii\base\Model;
 
 
 /**
- * @SWG\Definition(required={"id", "members"})
+ * @SWG\Definition(required={"id", "participants"})
  *
- * @SWG\Property(property="id", type="integer")
- * @SWG\Property(property="email", type="string")
- * @SWG\Property(property="username", type="string")
+ * @SWG\Property(
+ *     property="id",
+ *     type="string",
+ *     description="Идентификатор собрания."
+ * )
+ * @SWG\Property(
+ *     property="participants",
+ *     type="array",
+ *     type="array",
+ *     @SWG\Items(ref="#/definitions/MeetingParticipant"),
+ *     description="Коллекция участников собрания."
+ * )
  */
-/** Дописать структуру предложенную Владу */
 class Meeting extends Model
 {
 

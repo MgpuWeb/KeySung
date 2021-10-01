@@ -6,7 +6,7 @@ use Yii;
 use yii\web\Controller;
 use yii\web\Response;
 
-class AbstractAjaxController extends Controller
+abstract class AbstractAjaxController extends Controller
 {
     public function beforeAction($action)
     {
