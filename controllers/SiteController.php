@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use Swagger\Annotations as SWG;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
