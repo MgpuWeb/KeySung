@@ -13,13 +13,6 @@
         "source": "https://github.com/yiisoft/yii2"
     },
     "minimum-stability": "stable",
-    "require": {
-        "php": ">=5.6.0",
-        "yiisoft/yii2": "~2.0.14",
-        "yiisoft/yii2-bootstrap4": "~2.0.0",
-        "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
-        "yii2mod/yii2-swagger": "*"
-    },
     "require-dev": {
         "yiisoft/yii2-debug": "^2.1",
         "yiisoft/yii2-gii": "~2.2.0",
@@ -68,5 +61,8 @@
             "type": "composer",
             "url": "https://asset-packagist.org"
         }
-    ]
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    }
 }
