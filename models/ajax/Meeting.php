@@ -1,5 +1,7 @@
 <?php
 
+namespace app\models\ajax;
+
 use Swagger\Annotations as SWG;
 use yii\base\Model;
 
@@ -22,5 +24,10 @@ use yii\base\Model;
  */
 class Meeting extends Model
 {
+	public string $id;
 
+	/**
+	 * @var MeetingParticipant[]
+	 */
+	public array $participants;
 }

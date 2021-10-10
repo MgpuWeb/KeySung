@@ -1,22 +1,22 @@
 <?php
 
-/* @var $this yii\web\View */
-/* @var $meeting array */
-
+use app\models\ajax\Meeting;
 use yii\widgets\Pjax;
+
+/* @var $this yii\web\View */
+/* @var Meeting $meeting */
 
 $this->title = 'Собрание';
 ?>
 <div class="site-index">
 	<?php Pjax::begin(['id' => 'meeting']); ?>
     <div class="row">
-        <?php foreach ($meeting['participants'] as $participant): ?>
+        <?php foreach ($meeting->participants as $participant): ?>
         <div class="col mt-5">
             <div class="card" style="width: 18rem;">
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Пользователь №<?= $participant['id'] ?></li>
-                    <li class="list-group-item">Эмоция: <?= $participant['emotion'] ?></li>
-                    <li class="list-group-item">Вовлечён: <?= $participant['isInvolved'] ?></li>
+                    <li class="list-group-item">Пользователь №<?= $participant->id ?></li>
+                    <li class="list-group-item">Эмоция: <?= $participant->predominantEmotion ?></li>
                 </ul>
             </div>
         </div>

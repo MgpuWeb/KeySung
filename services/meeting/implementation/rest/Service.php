@@ -1,10 +1,10 @@
 <?php
 
-namespace app\services\implementation\rest;
+namespace app\services\meeting\implementation\rest;
 
 use app\services\meeting\contract;
 
-class Service implements contract\MeetingServiceInterface
+final class Service implements contract\MeetingServiceInterface
 {
     public function __construct(private Facade $facade)
     {
@@ -12,6 +12,6 @@ class Service implements contract\MeetingServiceInterface
 
     public function getById(string $id): contract\models\MeetingInterface
     {
-
+		return $this->facade->getById($id);
     }
 }

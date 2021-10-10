@@ -10,6 +10,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii2mod\swagger\SwaggerUIRenderer;
+use yii2mod\swagger\OpenAPIRenderer;
 
 class SiteController extends Controller
 {
@@ -46,11 +48,11 @@ class SiteController extends Controller
     {
         return [
             'ajax-docs' => [
-                'class' => 'yii2mod\swagger\SwaggerUIRenderer',
+                'class' => SwaggerUIRenderer::class,
                 'restUrl' => Url::to(['site/json-schema']),
             ],
             'json-schema' => [
-                'class' => 'yii2mod\swagger\OpenAPIRenderer',
+                'class' => OpenAPIRenderer::class,
                 'scanDir' => [
                     Yii::getAlias('@app/controllers/ajax'),
                     Yii::getAlias('@app/models/ajax'),

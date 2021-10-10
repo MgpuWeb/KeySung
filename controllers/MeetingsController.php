@@ -2,34 +2,20 @@
 
 namespace app\controllers;
 
+use app\models\ajax\Meeting;
+use Yii;
 use yii\web\Controller;
+use yii\web\Response;
 
 class MeetingsController extends Controller
 {
     public function actionView(string $id)
     {
+    	/** @var Meeting $meeting */
+		$meeting = Yii::$app->runAction("/ajax/meetings/view", ['id' => $id]);
+		Yii::$app->response->format = Response::FORMAT_HTML;
         return $this->render('view', [
-        	'meeting' => [
-        		'id' => $id,
-				'participants' => [
-					$this->createRandomDataParticipant(1),
-					$this->createRandomDataParticipant(2),
-					$this->createRandomDataParticipant(3),
-					$this->createRandomDataParticipant(4),
-					$this->createRandomDataParticipant(5),
-					$this->createRandomDataParticipant(6),
-				]
-			],
+        	'meeting' => $meeting
 		]);
     }
-
-    private function createRandomDataParticipant(int $id): array
-	{
-		return [
-			'id' => $id,
-			'isInvolved' => random_int(0, 1)  ? 'Да' : 'Нет',
-			'emotion' => ["Нейтральный(ая)", "Радостный(ая)", "Грустный(ая)", "Удивлённый(ая)", "Злой(ая)"][random_int(0, 4)]
-		];
-	}
-
 }
