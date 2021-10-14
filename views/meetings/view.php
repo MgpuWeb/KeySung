@@ -11,9 +11,10 @@ $this->title = 'Собрание';
 <div class="site-index">
 	<?php Pjax::begin(['id' => 'meeting']); ?>
     <div class="row">
-        <?php foreach ($meeting->participants as $participant): ?>
+        <?php foreach ($meeting->participants as $index => $participant): ?>
         <div class="col mt-5">
             <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src="https://i.pravatar.cc/1000?u=<?= $participant->id ?>" alt="Аватар пользователя">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">Пользователь №<?= $participant->id ?></li>
                     <li class="list-group-item">Эмоция: <?= $participant->predominantEmotion ?></li>
