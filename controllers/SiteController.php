@@ -4,11 +4,14 @@ namespace app\controllers;
 
 use Yii;
 use yii\filters\AccessControl;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
 use app\models\ContactForm;
+use yii2mod\swagger\SwaggerUIRenderer;
+use yii2mod\swagger\OpenAPIRenderer;
 
 class SiteController extends Controller
 {
@@ -44,6 +47,17 @@ class SiteController extends Controller
     public function actions()
     {
         return [
+            'ajax-docs' => [
+                'class' => SwaggerUIRenderer::class,
+                'restUrl' => Url::to(['site/json-schema']),
+            ],
+            'json-schema' => [
+                'class' => OpenAPIRenderer::class,
+                'scanDir' => [
+                    Yii::getAlias('@app/controllers/ajax'),
+                    Yii::getAlias('@app/models/ajax'),
+                ],
+            ],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
