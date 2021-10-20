@@ -2,6 +2,8 @@
 
 namespace app\services\meeting\implementation\rest;
 
+use GuzzleHttp\Exception\ClientException;
+
 class Facade
 {
 	private const ENDPOINT_SESSIONS = 'sessions';
@@ -10,10 +12,23 @@ class Facade
     {
     }
 
-    public function getById(string $id): response\Session
+	/**
+	 * @param string $id
+	 * @return response\Session|null
+	 * @throws \GuzzleHttp\Exception\GuzzleException
+	 * @throws \JsonException
+	 * @todo: при расширении запросов перенести обработку в клиент
+	 */
+    public function getById(string $id): ?response\Session
     {
-    	$endpointUrl = sprintf('%s/%s', static::ENDPOINT_SESSIONS, $id);
-		$response = $this->client->get($endpointUrl);
+    	$endpointUrl = sprintf('/%s/%s', static::ENDPOINT_SESSIONS, $id);
+
+		try {
+			$response = $this->client->get($endpointUrl);
+		} catch (ClientException) {
+			return null;
+		}
+
 		$jsonDecodedResponse = json_decode(
 			$response->getBody()->getContents(),
 			true,

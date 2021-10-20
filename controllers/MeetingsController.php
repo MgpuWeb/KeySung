@@ -11,7 +11,7 @@ class MeetingsController extends Controller
 {
     public function actionView(string $id)
     {
-    	/** @var Meeting $meeting */
+    	/** @var ?Meeting $meeting */
 		$meeting = Yii::$app->runAction("/ajax/meetings/view", ['id' => $id]);
 		Yii::$app->response->format = Response::FORMAT_HTML;
         return $this->render('view', [
