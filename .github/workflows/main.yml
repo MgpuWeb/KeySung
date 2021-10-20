@@ -25,10 +25,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Run composer install
+      - name: Run composer update
         uses: baschny/php-composer-action@v1
         with:
-          command: install
+          command: update
+
+      - name: Run composer update
+        uses: baschny/php-composer-action@v1
+        with:
+          command: update
 
       - name: Codeception
         uses: joelwmale/codeception-action@1.0.0
