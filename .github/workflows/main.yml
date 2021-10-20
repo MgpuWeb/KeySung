@@ -27,3 +27,8 @@ jobs:
 
       - name: Codeception
         uses: joelwmale/codeception-action@1.0.0
+
+      - name: Run composer install
+        uses: baschny/php-composer-action@v1
+        with:
+          command: install
