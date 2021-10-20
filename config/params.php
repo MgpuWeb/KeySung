@@ -1,7 +1,9 @@
 <?php
 
 return [
-    'adminEmail' => 'admin@example.com',
-    'senderEmail' => 'noreply@example.com',
-    'senderName' => 'Example.com mailer',
+    'services' => [
+    	'emotions' => [
+    		'base_url' => 'http://37.230.157.130:7677',
+		]
+	]
 ];

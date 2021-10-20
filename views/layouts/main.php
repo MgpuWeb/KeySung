@@ -37,7 +37,6 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
         'items' => [
-            ['label' => 'Demo', 'url' => ['/meetings/demo']],
             ['label' => 'Ajax Rest Api Documentation', 'url' => ['/site/ajax-docs']],
         ],
     ]);

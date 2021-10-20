@@ -9,10 +9,10 @@ class Factory
 	public function createSession(array $response): Session
 	{
 		$persons = array_map(function(array $person): SessionPerson {
-			return $this->createSessionPerson($person['person_id'], $person['main_emotion']);
-		}, $response['members']);
+			return $this->createSessionPerson($person['id'], $person['main_emotion']);
+		}, $response['persons']);
 
-		return new Session($response['session_name'], $persons);
+		return new Session($response['id'], $persons);
 	}
 
 	#[Pure] private function createSessionPerson(int $id, string $mainEmotion): SessionPerson

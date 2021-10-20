@@ -10,7 +10,7 @@ final class Service implements contract\MeetingServiceInterface
     {
     }
 
-    public function getById(string $id): contract\models\MeetingInterface
+    public function getById(string $id): ?contract\models\MeetingInterface
     {
 		return $this->facade->getById($id);
     }

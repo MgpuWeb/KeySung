@@ -8,19 +8,19 @@ use Codeception\Test\Unit;
 
 class SessionTest extends Unit
 {
-	public function testGetId()
+	public function testGetId(): void
 	{
 		$id = '::id::';
-		self::assertSame($id, (new Session($id, []))->getId());
+		static::assertSame($id, (new Session($id, []))->getId());
 	}
 
-	public function testGetParticipants()
+	public function testGetParticipants(): void
 	{
 		$participants = [
 			new SessionPerson(1, '::someEmotion::'),
 			new SessionPerson(2, '::someAnotherEmotion::'),
 		];
 
-		self::assertSame($participants, (new Session('::id::', $participants))->getParticipants());
+		static::assertSame($participants, (new Session('::id::', $participants))->getParticipants());
 	}
 }
