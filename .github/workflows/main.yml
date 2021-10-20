@@ -1,34 +1,70 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI
-
-# Controls when the workflow will run
-on:
-  # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ 'feature/*' ]
-  pull_request:
-    branches: [ main ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+on: [push, pull_request]
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  yii:
+    name: Yii2 (PHP ${{ matrix.php-versions }})
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    env:
+      DB_USERNAME: postgres
+      DB_PASSWORD: postgres
+      TEST_DB_USERNAME: postgres
+      TEST_DB_PASSWORD: postgres
+      DB_CHARSET: utf8
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432/tcp
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 3
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: ['8.0']
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Install dependencies
-        uses: php-actions/composer@v6
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Set Node.js 10.x
+        uses: actions/setup-node@v1
         with:
-          command: install
-
-      - name: Codeception
-        uses: joelwmale/codeception-action@1.0.0
+          node-version: 10.x
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 #https://github.com/shivammathur/setup-php
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, intl, gd, imagick, zip, dom, pgsql
+          coverage: xdebug #optional
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache composer dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          # Use composer.json for key, if composer.lock is not committed.
+          # key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install Composer dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Prepare the application
+        run: |
+          php -r "file_exists('.env') || copy('.env.dist', '.env');"
+          php console/yii app/setup
+          npm install --development
+          npm run build
+        env:
+          DB_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=postgres
+          TEST_DB_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=postgres
+      - name: Run Tests
+        run: |
+          vendor/bin/codecept build
+          php tests/bin/yii app/setup --interactive=0
+          nohup php -S localhost:8080 > yii.log 2>&1 &
+          vendor/bin/codecept run
+        env:
+          DB_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=postgres
+          TEST_DB_DSN: pgsql:host=127.0.0.1;port=${{ job.services.postgres.ports['5432'] }};dbname=postgres
