@@ -6,7 +6,7 @@ use Swagger\Annotations as SWG;
 use yii\base\Model;
 
 /**
- * @SWG\Definition(required={"id", "main_emotion"})
+ * @SWG\Definition(required={"id", "predominantEmotion", "meta"})
  *
  * @SWG\Property(
  *     property="id",
@@ -19,9 +19,16 @@ use yii\base\Model;
  *     enum={"neutral", "happy", "sad", "surprise", "angry"},
  *     description="Преобладающая эмоция.",
  * )
+ * @SWG\Property(
+ *     property="meta",
+ *     type="string",
+ *     ref="#/definitions/MeetingParticipantMeta",
+ *     description="Мета информация участника собрания.",
+ * )
  */
 class MeetingParticipant extends Model
 {
 	public int $id;
 	public string $predominantEmotion;
+	public MeetingParticipantMeta $meta;
 }

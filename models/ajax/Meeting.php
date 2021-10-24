@@ -17,7 +17,6 @@ use yii\base\Model;
  * @SWG\Property(
  *     property="participants",
  *     type="array",
- *     type="array",
  *     @SWG\Items(ref="#/definitions/MeetingParticipant"),
  *     description="Коллекция участников собрания."
  * )
