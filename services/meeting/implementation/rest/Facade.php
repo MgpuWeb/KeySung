@@ -38,4 +38,24 @@ class Facade
 
 		return $this->responseFactory->createSession($jsonDecodedResponse);
     }
+
+	public function getMetaById(string $id): ?response\Session
+	{
+		$endpointUrl = sprintf('/%s/%s/meta', static::ENDPOINT_SESSIONS, $id);
+
+		try {
+			$response = $this->client->get($endpointUrl);
+		} catch (ClientException) {
+			return null;
+		}
+
+		$jsonDecodedResponse = json_decode(
+			$response->getBody()->getContents(),
+			true,
+			512,
+			JSON_THROW_ON_ERROR
+		);
+
+		return $this->responseFactory->createSession($jsonDecodedResponse);
+	}
 }
