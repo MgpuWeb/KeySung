@@ -21,7 +21,6 @@ use yii\base\Model;
  * )
  * @SWG\Property(
  *     property="meta",
- *     type="string",
  *     ref="#/definitions/MeetingParticipantMeta",
  *     description="Мета информация участника собрания.",
  * )

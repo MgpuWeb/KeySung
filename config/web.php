@@ -48,7 +48,10 @@ $config = [
             'showScriptName' => false,
             'rules' => [
 				'meetings/<id:\w+>' => 'meetings/view',
+				'meetings/<id:\w+>/summary' => 'meetings/summary',
+
 				'ajax/meetings/<id:\w+>' => 'ajax/meetings/view',
+				'ajax/meetings/<id:\w+>/summary' => 'ajax/meetings/summary',
             ],
         ],
     ],

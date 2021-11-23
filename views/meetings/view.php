@@ -1,6 +1,7 @@
 <?php
 
 use app\models\ajax\Meeting;
+use yii\bootstrap4\Html;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
@@ -10,6 +11,7 @@ $this->title = 'Собрание';
 ?>
 <div class="site-index">
     <?php if ($meeting !== null): ?>
+        <?= Html::a('Статистика', ['/meetings/summary', 'id' => $meeting->id], ['class'=>'btn btn-success']) ?>
         <?php Pjax::begin(['id' => 'meeting']); ?>
         <div class="row">
             <?php foreach ($meeting->participants as $index => $participant): ?>

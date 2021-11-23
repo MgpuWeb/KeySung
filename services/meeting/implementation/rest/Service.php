@@ -100,4 +100,9 @@ final class Service implements contract\MeetingServiceInterface
 
 		return $meeting;
 	}
+
+    public function getSummary(string $id): ?models\MeetingSummaryInterface
+    {
+        return $this->facade->getSummary($id);
+    }
 }

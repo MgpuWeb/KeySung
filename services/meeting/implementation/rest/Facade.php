@@ -58,4 +58,24 @@ class Facade
 
 		return $this->responseFactory->createSession($jsonDecodedResponse);
 	}
+
+	public function getSummary(string $id): ?response\SessionSummary
+    {
+        $endpointUrl = sprintf('/%s/%s/summary', static::ENDPOINT_SESSIONS, $id);
+
+        try {
+            $response = $this->client->get($endpointUrl);
+        } catch (ClientException) {
+            return null;
+        }
+
+        $jsonDecodedResponse = json_decode(
+            $response->getBody()->getContents(),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+
+        return $this->responseFactory->createSessionSummary($jsonDecodedResponse);
+    }
 }

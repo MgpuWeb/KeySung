@@ -11,4 +11,5 @@ interface MeetingServiceInterface
 {
     public function getById(string $id): ?models\MeetingInterface;
     public function getByIdWithMeta(string $id): ?models\MeetingInterface;
+    public function getSummary(string $id): ?models\MeetingSummaryInterface;
 }
