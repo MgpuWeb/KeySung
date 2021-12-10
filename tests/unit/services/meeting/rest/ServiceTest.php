@@ -7,6 +7,11 @@ use Codeception\Test\Unit;
 
 class ServiceTest extends Unit
 {
+    public function testAon()
+    {
+        var_dump(http_build_query(['order[age]' => 'desc']));
+    }
+
 	public function testGetByIdWhenSuccess(): void
 	{
 		$facade = $this->createMock(rest\Facade::class);

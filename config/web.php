@@ -49,9 +49,12 @@ $config = [
             'rules' => [
 				'meetings/<id:\w+>' => 'meetings/view',
 				'meetings/<id:\w+>/summary' => 'meetings/summary',
+				'meetings' => 'meetings/collection',
 
 				'ajax/meetings/<id:\w+>' => 'ajax/meetings/view',
 				'ajax/meetings/<id:\w+>/summary' => 'ajax/meetings/summary',
+                'ajax/meetings' => 'ajax/meetings/collection',
+
             ],
         ],
     ],

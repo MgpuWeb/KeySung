@@ -3,7 +3,9 @@
 namespace app\services\meeting\implementation\rest;
 
 use app\services\meeting\contract;
+use app\services\meeting\contract\filter\Filter;
 use app\services\meeting\contract\models;
+use app\services\meeting\contract\models\MeetingItemInterface;
 
 final class Service implements contract\MeetingServiceInterface
 {
@@ -101,8 +103,24 @@ final class Service implements contract\MeetingServiceInterface
 		return $meeting;
 	}
 
+    /**
+     * @param string $id
+     * @return models\MeetingSummaryInterface|null
+     * @throws \JsonException
+     */
     public function getSummary(string $id): ?models\MeetingSummaryInterface
     {
         return $this->facade->getSummary($id);
+    }
+
+    /**
+     * @param Filter[] $filters
+     * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonException
+     */
+    public function getCollection(array $filters): array
+    {
+        return $this->facade->getCollection($filters);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace app\services\meeting\implementation\rest\response;
 
+use DateTimeImmutable;
 use JetBrains\PhpStorm\Pure;
 
 class Factory
@@ -26,6 +27,16 @@ class Factory
         }, $response['persons']);
 
         return new SessionSummary($response['id'], $persons);
+    }
+
+    /**
+     * @return SessionItem[]
+     */
+    public function createSessionItems(array $response): array
+    {
+        return array_map(static function (array $item): SessionItem {
+            return new SessionItem($item['id'], $item['external_id'], new DateTimeImmutable($item['created_at']));
+        }, $response);
     }
 
     #[Pure] private function createEmotions(array $emotions): Emotions

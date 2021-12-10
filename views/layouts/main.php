@@ -38,6 +38,7 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav'],
         'items' => [
             ['label' => 'Ajax Rest Api Documentation', 'url' => ['/site/ajax-docs']],
+            ['label' => 'Meetings Collection', 'url' => ['/meetings']],
         ],
     ]);
     NavBar::end();
