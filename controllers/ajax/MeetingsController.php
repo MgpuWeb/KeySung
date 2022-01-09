@@ -183,7 +183,7 @@ class MeetingsController extends AbstractAjaxController
             return new MeetingItem([
                 'id'         => $item->getId(),
                 'externalId' => $item->getExternalId(),
-                'createdAt'  => $item->getCreatedAt(),
+                'createdAt'  => $item->getCreatedAt()->format('c'),
             ]);
         }, $meetingItems) : [];
     }

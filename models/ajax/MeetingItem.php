@@ -2,12 +2,9 @@
 
 namespace app\models\ajax;
 
-use DateTimeInterface;
-use JetBrains\PhpStorm\ArrayShape;
 use Swagger\Annotations as SWG;
 use Yii;
 use yii\base\Model;
-use yii\behaviors\AttributeBehavior;
 
 
 /**
@@ -32,29 +29,23 @@ use yii\behaviors\AttributeBehavior;
  */
 class MeetingItem extends Model
 {
-    public string $id;
-    public string $externalId;
-    public DateTimeInterface $createdAt;
+    public ?string $id;
+    public ?string $externalId;
+    public ?string $createdAt;
 
-    public function attributeLabels() {
+    public function rules()
+    {
         return [
-            'id' => Yii::t('app', 'Идентификатор собрания'),
-            'externalId' => Yii::t('app', 'Идентификатор организатора собрания'),
-            'createdAt' => Yii::t('app', 'Дата начала собрания'),
+            ['externalId', 'string'],
+            ['createdAt', 'datetime'],
         ];
     }
 
-    /**
-     * @param array $fields
-     * @param array $expand
-     * @param bool $recursive
-     * @return array|string[]
-     * @todo: пока не понял почему аттрибут DateTimeInterface не преобразовывается в string. Если не переопределять формат вывода, то поле createdAt отображается как мустой массив createdAt => []
-     */
-    public function toArray(array $fields = [], array $expand = [], $recursive = true)
-    {
-        return array_merge(parent::toArray($fields, $expand, $recursive), [
-            'createdAt' => $this->createdAt->format('c')
-        ]);
+    public function attributeLabels() {
+        return [
+            'id' => Yii::t('app', 'Идентификатор'),
+            'externalId' => Yii::t('app', 'Идентификатор организатора'),
+            'createdAt' => Yii::t('app', 'Дата начала'),
+        ];
     }
 }
