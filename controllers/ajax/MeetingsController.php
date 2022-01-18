@@ -7,7 +7,6 @@ use app\models\ajax\MeetingParticipant;
 use app\models\ajax\MeetingParticipantMeta;
 use app\services\meeting\contract\MeetingServiceInterface;
 use app\services\meeting\contract\models\MeetingParticipantInterface;
-use app\services\meeting\implementation\rest\response\Session;
 use Swagger\Annotations as SWG;
 use Yii;
 
@@ -16,6 +15,9 @@ class MeetingsController extends AbstractAjaxController
 	/**
 	 * @SWG\Get(path = "/meetings/{id}",
 	 *     tags = {"Meetings"},
+	 *     security={
+	 *         {"default": {}}
+	 *     },
 	 *     summary = "Возвращает полную информацию о собрании по переданному идентификатору.",
 	 *     @SWG\Parameter(
 	 *         name = "id",
