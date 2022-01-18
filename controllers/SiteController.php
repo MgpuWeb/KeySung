@@ -49,15 +49,26 @@ class SiteController extends Controller
         return [
             'ajax-docs' => [
                 'class' => SwaggerUIRenderer::class,
-                'restUrl' => Url::to(['site/json-schema']),
+                'restUrl' => Url::to(['site/ajax-json-schema']),
             ],
-            'json-schema' => [
+            'ajax-json-schema' => [
                 'class' => OpenAPIRenderer::class,
                 'scanDir' => [
                     Yii::getAlias('@app/controllers/ajax'),
                     Yii::getAlias('@app/models/ajax'),
                 ],
             ],
+			'integration-docs' => [
+				'class' => SwaggerUIRenderer::class,
+				'restUrl' => Url::to(['site/integration-json-schema']),
+			],
+			'integration-json-schema' => [
+				'class' => OpenAPIRenderer::class,
+				'scanDir' => [
+					Yii::getAlias('@app/controllers/integration'),
+					Yii::getAlias('@app/models/integration'),
+				],
+			],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],

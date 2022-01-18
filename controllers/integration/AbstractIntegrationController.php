@@ -1,12 +1,12 @@
 <?php
 
-namespace app\controllers\ajax;
+namespace app\controllers\integration;
 
 use Yii;
 use yii\web\Controller;
 use yii\web\Response;
 
-abstract class AbstractAjaxController extends Controller
+abstract class AbstractIntegrationController extends Controller
 {
 	public function behaviors()
 	{
@@ -18,9 +18,9 @@ abstract class AbstractAjaxController extends Controller
 	}
 
 	public function beforeAction($action)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
+	{
+		Yii::$app->response->format = Response::FORMAT_JSON;
 		Yii::$app->request->enableCsrfValidation = false;
-        return parent::beforeAction($action);
-    }
+		return parent::beforeAction($action);
+	}
 }

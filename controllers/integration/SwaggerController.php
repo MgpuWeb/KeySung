@@ -1,15 +1,15 @@
 <?php
 
-namespace app\controllers\ajax;
+namespace app\controllers\integration;
 
 use Swagger\Annotations as SWG;
 
 /**
  * @SWG\Swagger(
- *     basePath="/ajax",
+ *     basePath="/integration",
  *     produces={"application/json"},
- *     consumes={"application/x-www-form-urlencoded"},
- *     @SWG\Info(version="1.0", title="AJAX REST API")
+ *     consumes={"application/json"},
+ *     @SWG\Info(version="1.0", title="INTEGRATION REST API")
  * )
  * @SWG\SecurityScheme(
  *   type="apiKey",

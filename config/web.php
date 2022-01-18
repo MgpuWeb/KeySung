@@ -1,5 +1,7 @@
 <?php
 
+use yii\web\JsonParser;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -13,15 +15,22 @@ $config = [
     ],
     'components' => [
         'request' => [
+			'parsers' => [
+				'application/json' => JsonParser::class,
+			],
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'LT187Ohj5MpViIbcyXCI0N8eufucD48z',
         ],
+		'authManager' => [
+			'class' => \yii\rbac\DbManager::class,
+		],
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => \yii\caching\FileCache::class,
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass'   => \app\models\User::class,
             'enableAutoLogin' => true,
+			'enableSession'   => false,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
@@ -47,8 +56,14 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-				'meetings/<id:\w+>' => 'meetings/view',
-				'ajax/meetings/<id:\w+>' => 'ajax/meetings/view',
+				'GET meetings/<id:\w+>' => 'meetings/view',
+				'GET ajax/meetings/<id:\w+>' => 'ajax/meetings/view',
+				'POST ajax/meetings' => 'ajax/meetings/create',
+
+				// integration
+				'POST integration/meetings' => 'integration/meetings/create',
+				'GET integration/meetings' => 'integration/meetings/collection',
+				'PUT integration/meetings/<id:\w+>' => 'integration/meetings/update',
             ],
         ],
     ],
