@@ -64,6 +64,25 @@ class MeetingsController extends AbstractIntegrationController
 	 *     		in="query",
 	 *     		default=10
 	 *     ),
+     *     @SWG\Parameter(
+     *     		name="exists[processorId]",
+     *     		type="boolean",
+     *     		in="query",
+     *     		default=false
+     *     ),
+     *     @SWG\Parameter(
+     *     		name="exists[processorId]",
+     *     		type="boolean",
+     *     		in="query",
+     *     		default=false
+     *     ),
+     *     @SWG\Parameter(
+     *     		name="order[date_start]",
+     *     		type="string",
+     *          enum={"asc", "desc"},
+     *     		in="query",
+     *     		default="asc"
+     *     ),
 	 *     @SWG\Response(
 	 *         response = 200,
 	 *         description = "Возвращает список собраний.",
@@ -75,7 +94,17 @@ class MeetingsController extends AbstractIntegrationController
 	public function actionCollection(): array
 	{
 		$limit = Yii::$app->request->getQueryParam('limit', 10);
-		return ProcessingMeeting::find()->limit($limit)->all();
+		$filterOrderDateStart = Yii::$app->request->queryParams['order']['date_start'] ?? 'asc';
+		$filterExistsProcessorId = filter_var(
+		    Yii::$app->request->queryParams['exists']['processorId'] ?? false,
+            FILTER_VALIDATE_BOOLEAN
+        );
+
+		return ProcessingMeeting::find()
+            ->orderBy("date_start {$filterOrderDateStart}")
+            ->where($filterExistsProcessorId ? [] : ['not', ['processor_id' => null]])
+            ->limit($limit)
+            ->all();
 	}
 
 	/**
