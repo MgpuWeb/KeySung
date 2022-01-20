@@ -36,7 +36,11 @@ class MeetingsController extends AbstractIntegrationController
 	 */
 	public function actionCreate(): array
 	{
-		$processingMeeting = new ProcessingMeeting(['user_id' => Yii::$app->user->id]);
+		$processingMeeting = new ProcessingMeeting([
+		    'user_id' => Yii::$app->user->id,
+            'scenario' => ProcessingMeeting::SCENARIO_CREATION
+        ]);
+
 		$processingMeeting->load(Yii::$app->request->post(), '');
 		if ($processingMeeting->validate()) {
 			$processingMeeting->save();
