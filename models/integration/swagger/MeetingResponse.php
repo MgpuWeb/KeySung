@@ -3,6 +3,7 @@
 namespace app\models\integration\swagger;
 
 use Swagger\Annotations as SWG;
+use yii\base\Model;
 
 /**
  * @SWG\Definition(required={"id", "processor_id", "type", "url"})
@@ -31,8 +32,22 @@ use Swagger\Annotations as SWG;
  *     example="123e4567-e89b-12d3-a456-426614174000",
  *     description="Идентификатор обработчика."
  * )
+ * @SWG\Property(
+ *     property="date_start",
+ *     type="string",
+ *     format="date-time",
+ *     example="2022-07-21 17:32:28",
+ *     description="Дата начала собрания."
+ * )
+ * @SWG\Property(
+ *     property="date_end",
+ *     type="string",
+ *     format="date-time",
+ *     example="2022-07-21 20:32:28",
+ *     description="Дата конца собрания."
+ * )
  */
-class MeetingResponse extends \yii\base\Model
+class MeetingResponse extends Model
 {
 
 }
