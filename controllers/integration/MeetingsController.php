@@ -102,7 +102,7 @@ class MeetingsController extends AbstractIntegrationController
 
 		return ProcessingMeeting::find()
             ->orderBy("date_start {$filterOrderDateStart}")
-            ->where($filterExistsProcessorId ? [] : ['not', ['processor_id' => null]])
+            ->where($filterExistsProcessorId ? ['not', ['processor_id' => null]] : ['processor_id' => null])
             ->limit($limit)
             ->all();
 	}
