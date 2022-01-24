@@ -166,7 +166,7 @@ class MeetingsController extends AbstractAjaxController
     {
         $filters = [
             $filterFactory->value('offset', Yii::$app->request->getQueryParam('offset', 0)),
-            $filterFactory->value('limit', Yii::$app->request->getQueryParam('limit', 15)),
+            $filterFactory->value('limit', Yii::$app->request->getQueryParam('limit', 20)),
         ];
 
         $externalIdFilter = Yii::$app->request->getQueryParam('externalId');

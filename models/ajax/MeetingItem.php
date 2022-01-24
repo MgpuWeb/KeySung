@@ -36,8 +36,8 @@ class MeetingItem extends Model
     public function rules()
     {
         return [
-            ['externalId', 'string'],
-            ['createdAt', 'datetime'],
+//            ['externalId', 'string'], Убрать комментарий, если роман захочет фильтр по externalId.
+//            ['createdAt', 'datetime'], Убрать комментарий, если Роман захочет фильтр по дате начала.
         ];
     }
 

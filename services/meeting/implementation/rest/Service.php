@@ -5,7 +5,6 @@ namespace app\services\meeting\implementation\rest;
 use app\services\meeting\contract;
 use app\services\meeting\contract\filter\Filter;
 use app\services\meeting\contract\models;
-use app\services\meeting\contract\models\MeetingItemInterface;
 
 final class Service implements contract\MeetingServiceInterface
 {
@@ -64,7 +63,7 @@ final class Service implements contract\MeetingServiceInterface
 	 * Пока я не могу понять к каким проблемам может привести это в будущем, но думаю,
 	 * что когда время придёт, то можно будет переделать отношения более корректно
 	 *
-	 * -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	 *   -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	 *
 	 * Идеальным для текущей реализации апи сервиса эмоций будет следующий вариант
 	 * [GET] /sessions/{id}?fields[]=persons.meta

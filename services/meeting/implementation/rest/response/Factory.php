@@ -35,7 +35,7 @@ class Factory
     public function createSessionItems(array $response): array
     {
         return array_map(static function (array $item): SessionItem {
-            return new SessionItem($item['id'], $item['external_id'], new DateTimeImmutable($item['created_at']));
+            return new SessionItem($item['session_id'], $item['external_id'], new DateTimeImmutable($item['created_at']));
         }, $response);
     }
 
