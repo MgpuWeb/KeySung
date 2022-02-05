@@ -34,12 +34,17 @@ AppAsset::register($this);
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
+    $navbarItems = [
+        ['label' => 'Ajax Rest Api Documentation', 'url' => ['/site/api-docs']],
+        ['label' => 'Integration Rest Api Documentation', 'url' => ['/site/integration-api-docs']],
+        Yii::$app->user->isGuest ? ['label' => 'Login', 'url' => ['/site/login']] : ['label' => 'Logout', 'url' => ['/site/logout']],
+    ];
+
+    if (Yii::$app->user->isGuest) $navbarItems[] = ['label' => 'Sign Up', 'url' => ['/site/signup']];
+
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],
-        'items' => [
-            ['label' => 'Ajax Rest Api Documentation', 'url' => ['/site/ajax-docs']],
-            ['label' => 'Integration Rest Api Documentation', 'url' => ['/site/integration-docs']],
-        ],
+        'items' => $navbarItems,
     ]);
     NavBar::end();
     ?>

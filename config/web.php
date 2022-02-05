@@ -30,17 +30,23 @@ $config = [
         'user' => [
             'identityClass'   => \app\models\User::class,
             'enableAutoLogin' => true,
-			'enableSession'   => false,
+			'enableSession'   => true,
         ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
         'mailer' => [
-            'class' => 'yii\swiftmailer\Mailer',
-            // send all mails to a file by default. You have to set
-            // 'useFileTransport' to false and configure a transport
-            // for the mailer to send real emails.
+            'class' => \yii\swiftmailer\Mailer::class,
             'useFileTransport' => true,
+//            'useFileTransport' => false,
+//            'transport' => [
+//                'class' => 'Swift_SmtpTransport',
+//                'encryption' => 'tls',
+//                'host' => 'your_mail_server_host',
+//                'port' => 'your_smtp_port',
+//                'username' => 'your_username',
+//                'password' => 'your_password',
+//            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -56,14 +62,24 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-				'GET meetings/<id:\w+>' => 'meetings/view',
-				'GET ajax/meetings/<id:\w+>' => 'ajax/meetings/view',
-				'POST ajax/meetings' => 'ajax/meetings/create',
+                // site
+                'GET site/login' => 'site/login',
+                'GET site/signup' => 'site/sign-up-view',
+                'POST site/signup' => 'site/sign-up',
 
-				// integration
-				'POST integration/meetings' => 'integration/meetings/create',
-				'GET integration/meetings' => 'integration/meetings/collection',
-				'PUT integration/meetings/<id:\w+>' => 'integration/meetings/update',
+                // meetings
+				'GET meetings/<id:\w+>' => 'meetings/view',
+
+                // api/common
+                'POST api/auth/login' => 'api/common/auth/login',
+
+				'POST api/meetings' => 'api/common/meetings/create',
+				'GET api/meetings/<id:\w+>' => 'api/common/meetings/view',
+
+				// api/integration
+				'POST api/integration/meetings' => 'api/integration/meetings/create',
+				'GET api/integration/meetings' => 'api/integration/meetings/collection',
+				'PUT api/integration/meetings/<id:\w+>' => 'api/integration/meetings/update',
             ],
         ],
     ],
