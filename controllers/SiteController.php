@@ -51,6 +51,7 @@ class SiteController extends Controller
             ],
             'api-json-schema' => [
                 'class' => OpenAPIRenderer::class,
+                'cache' => null,
                 'scanDir' => [
                     Yii::getAlias('@app/controllers/api/common'),
                     Yii::getAlias('@app/models/api/common/swagger'),
