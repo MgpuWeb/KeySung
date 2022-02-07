@@ -2,13 +2,17 @@
 
 namespace app\controllers;
 
+use app\models\form\Login;
+use app\models\form\SignUp;
+use app\models\User;
+use app\services\user\contract\exception\repository\InvalidEntity;
+use app\services\user\contract\exception\repository\NotFound;
+use app\services\user\contract\UserServiceInterface;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
 use app\models\ContactForm;
 use yii2mod\swagger\SwaggerUIRenderer;
 use yii2mod\swagger\OpenAPIRenderer;
@@ -32,12 +36,6 @@ class SiteController extends Controller
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
         ];
     }
 
@@ -47,26 +45,26 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            'ajax-docs' => [
+            'api-docs' => [
                 'class' => SwaggerUIRenderer::class,
-                'restUrl' => Url::to(['site/ajax-json-schema']),
+                'restUrl' => Url::to(['site/api-json-schema']),
             ],
-            'ajax-json-schema' => [
+            'api-json-schema' => [
                 'class' => OpenAPIRenderer::class,
                 'scanDir' => [
-                    Yii::getAlias('@app/controllers/ajax'),
-                    Yii::getAlias('@app/models/ajax'),
+                    Yii::getAlias('@app/controllers/api/common'),
+                    Yii::getAlias('@app/models/api/common/swagger'),
                 ],
             ],
-			'integration-docs' => [
+			'integration-api-docs' => [
 				'class' => SwaggerUIRenderer::class,
-				'restUrl' => Url::to(['site/integration-json-schema']),
+				'restUrl' => Url::to(['site/integration-api-json-schema']),
 			],
-			'integration-json-schema' => [
+			'integration-api-json-schema' => [
 				'class' => OpenAPIRenderer::class,
 				'scanDir' => [
-					Yii::getAlias('@app/controllers/integration'),
-					Yii::getAlias('@app/models/integration'),
+					Yii::getAlias('@app/controllers/api/integration'),
+					Yii::getAlias('@app/models/api/integration/swagger'),
 				],
 			],
             'error' => [
@@ -100,15 +98,20 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if (Yii::$app->request->isGet) {
+            $model = new Login();
+            return $this->render('login', [
+                'model' => $model,
+            ]);
         }
 
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
+        if (Yii::$app->request->isPost) {
+            $model = new Login();
+            if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+                $model->login();
+                $this->goHome();
+            }
+        }
     }
 
     /**
@@ -121,6 +124,60 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionSignUp(UserServiceInterface $userService)
+    {
+        $model = new SignUp();
+        if (!$model->load(Yii::$app->request->post()) || !$model->validate()) {
+            Yii::$app->session->setFlash(
+                'errors',
+                $model->getErrorSummary(true)[0]
+            );
+
+            return $this->render('sign_up', compact('model'));
+        }
+
+        $user = new User();
+        $user->email = $model->email;
+        $user->password = $model->password;
+
+        try {
+            $userService->create($user);
+        } catch (InvalidEntity $exception) {
+            Yii::$app->session->setFlash(
+                'error',
+                $exception->getMessage()
+            );
+
+            return $this->render('sign_up', compact('model'));
+        }
+
+        Yii::$app->user->login($user, 3600*24*30);
+        return $this->goHome();
+    }
+
+    public function confirmation($token, UserServiceInterface $userService): void
+    {
+        if (empty($token)) {
+            throw new \DomainException('Empty confirm token.');
+        }
+
+        try {
+            $user = $userService->confirmEmail($token);
+        } catch (NotFound) {
+            throw new \DomainException('User is not found.');
+        }
+
+        if (!Yii::$app->getUser()->login($user)){
+            throw new \RuntimeException('Error authentication.');
+        }
+    }
+
+    public function actionSignUpView()
+    {
+        $model = new SignUp();
+        return $this->render('sign_up', compact('model'));
     }
 
     /**
