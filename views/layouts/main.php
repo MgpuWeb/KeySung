@@ -19,6 +19,7 @@ AppAsset::register($this);
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <?php $this->registerCsrfMetaTags() ?>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
@@ -34,13 +35,17 @@ AppAsset::register($this);
             'class' => 'navbar navbar-expand-md navbar-dark bg-dark fixed-top',
         ],
     ]);
+
     $navbarItems = [
-        ['label' => 'Ajax Rest Api Documentation', 'url' => ['/site/api-docs']],
+        ['label' => 'Meetings Collection', 'url' => ['/meetings']],
+        ['label' => 'Rest Api Documentation', 'url' => ['/site/api-docs']],
         ['label' => 'Integration Rest Api Documentation', 'url' => ['/site/integration-api-docs']],
         Yii::$app->user->isGuest ? ['label' => 'Login', 'url' => ['/site/login']] : ['label' => 'Logout', 'url' => ['/site/logout']],
     ];
 
-    if (Yii::$app->user->isGuest) $navbarItems[] = ['label' => 'Sign Up', 'url' => ['/site/signup']];
+    if (Yii::$app->user->isGuest) {
+        $navbarItems[] = ['label' => 'Sign Up', 'url' => ['/site/signup']];
+    }
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav'],

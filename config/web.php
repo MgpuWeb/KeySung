@@ -8,6 +8,7 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
+    'language' => 'ru_RU',
     'bootstrap' => ['log'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -68,13 +69,17 @@ $config = [
                 'POST site/signup' => 'site/sign-up',
 
                 // meetings
+                'GET meetings' => 'meetings/collection',
 				'GET meetings/<id:\w+>' => 'meetings/view',
+                'GET meetings/<id:\w+>/summary' => 'meetings/summary',
 
                 // api/common
                 'POST api/auth/login' => 'api/common/auth/login',
 
 				'POST api/meetings' => 'api/common/meetings/create',
 				'GET api/meetings/<id:\w+>' => 'api/common/meetings/view',
+                'GET api/meetings/<id:\w+>/summary' => 'api/common/meetings/summary',
+                'GET api/meetings' => 'api/common/meetings/collection',
 
 				// api/integration
 				'POST api/integration/meetings' => 'api/integration/meetings/create',

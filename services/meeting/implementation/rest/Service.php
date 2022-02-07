@@ -3,6 +3,7 @@
 namespace app\services\meeting\implementation\rest;
 
 use app\services\meeting\contract;
+use app\services\meeting\contract\filter\Filter;
 use app\services\meeting\contract\models;
 
 final class Service implements contract\MeetingServiceInterface
@@ -62,7 +63,7 @@ final class Service implements contract\MeetingServiceInterface
 	 * Пока я не могу понять к каким проблемам может привести это в будущем, но думаю,
 	 * что когда время придёт, то можно будет переделать отношения более корректно
 	 *
-	 * -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+	 *   -+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 	 *
 	 * Идеальным для текущей реализации апи сервиса эмоций будет следующий вариант
 	 * [GET] /sessions/{id}?fields[]=persons.meta
@@ -100,4 +101,25 @@ final class Service implements contract\MeetingServiceInterface
 
 		return $meeting;
 	}
+
+    /**
+     * @param string $id
+     * @return models\MeetingSummaryInterface|null
+     * @throws \JsonException
+     */
+    public function getSummary(string $id): ?models\MeetingSummaryInterface
+    {
+        return $this->facade->getSummary($id);
+    }
+
+    /**
+     * @param Filter[] $filters
+     * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \JsonException
+     */
+    public function getCollection(array $filters): array
+    {
+        return $this->facade->getCollection($filters);
+    }
 }
