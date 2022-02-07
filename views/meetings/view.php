@@ -1,7 +1,7 @@
 <?php
 
-use app\models\ajax\Meeting;
 use yii\bootstrap4\Html;
+use app\models\api\common\swagger\Meeting;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */

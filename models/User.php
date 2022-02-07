@@ -2,38 +2,55 @@
 
 namespace app\models;
 
-class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
+use app\models\enum\user\Status;
+use app\services\user\contract\model\UserInterface;
+use Kartavik\Yii2\Validators\EnumValidator;
+use yii\db\ActiveRecord;
+use yii\web\IdentityInterface;
+
+/**
+ * Class User
+ * @package app\models
+ * @property string $email
+ * @property string $password
+ * @property string $access_token
+ * @property string $remember_me_token
+ * @property integer $status
+ * @property string $email_confirmation_token
+ */
+class User extends ActiveRecord implements IdentityInterface, UserInterface
 {
-    public $id;
-    public $username;
-    public $password;
-    public $authKey;
-    public $accessToken;
+    public const SCENARIO_REGISTRATION = 'registration';
 
-    private static $users = [
-        '100' => [
-            'id' => '100',
-            'username' => 'admin',
-            'password' => 'admin',
-            'authKey' => 'test100key',
-            'accessToken' => '100-token',
-        ],
-        '101' => [
-            'id' => '101',
-            'username' => 'demo',
-            'password' => 'demo',
-            'authKey' => 'test101key',
-            'accessToken' => '101-token',
-        ],
-    ];
+	public static function tableName()
+	{
+		return 'users';
+	}
 
+    public function rules()
+    {
+        return [
+            [
+                'status',
+                EnumValidator::class,
+                'targetEnum' => Status::class,
+            ],
+            [
+                'email',
+                'unique',
+                'message' => 'Почтовый ящик уже используется. Выберите другой.',
+                'on' => self::SCENARIO_REGISTRATION
+            ],
+            ['password', 'string'],
+        ];
+    }
 
     /**
      * {@inheritdoc}
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+		return static::findOne($id);
     }
 
     /**
@@ -41,64 +58,80 @@ class User extends \yii\base\BaseObject implements \yii\web\IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        foreach (self::$users as $user) {
-            if ($user['accessToken'] === $token) {
-                return new static($user);
-            }
-        }
-
-        return null;
+		return static::findOne(['access_token' => $token]);
     }
 
-    /**
-     * Finds user by username
-     *
-     * @param string $username
-     * @return static|null
-     */
-    public static function findByUsername($username)
-    {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAuthKey()
+    public function setEmail(string $email): void
     {
-        return $this->authKey;
+        $this->email = $email;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateAuthKey($authKey)
+    public function setPassword(string $password): void
     {
-        return $this->authKey === $authKey;
+        $this->password = $password;
     }
 
-    /**
-     * Validates password
-     *
-     * @param string $password password to validate
-     * @return bool if password provided is valid for current user
-     */
-    public function validatePassword($password)
+    public function setStatus(int $status): void
     {
-        return $this->password === $password;
+        $this->status = $status;
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function getEmail(): string
+    {
+        return $this->email;
+    }
+
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function getAccessToken(): string
+    {
+        return $this->access_token;
+    }
+
+    public function setAccessToken(string $token): void
+    {
+        $this->access_token = $token;
+    }
+
+    public function setRememberMeToken(string $token): void
+    {
+        $this->remember_me_token = $token;
+    }
+
+	public function getAuthKey()
+	{
+		return $this->remember_me_token;
+	}
+
+	public function validateAuthKey($authKey)
+	{
+		return $this->remember_me_token === $authKey;
+	}
+
+    public function beforeSave($insert)
+    {
+        if (parent::beforeSave($insert)) {
+            if ($this->isNewRecord) {
+                $this->remember_me_token = \Yii::$app->security->generateRandomString();
+                $this->email_confirmation_token = \Yii::$app->security->generateRandomString();
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

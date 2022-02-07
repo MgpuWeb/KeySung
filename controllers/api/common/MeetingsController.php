@@ -1,6 +1,6 @@
 <?php
 
-namespace app\controllers\ajax;
+namespace app\controllers\api\common;
 
 use app\models\ajax\Emotions;
 use app\models\ajax\Meeting;
@@ -10,14 +10,23 @@ use app\models\ajax\MeetingParticipantMeta;
 use app\models\ajax\MeetingSummary;
 use app\models\ajax\MeetingSummaryParticipant;
 use app\services\meeting\contract;
+use app\controllers\api\AbstractApiController;
+use app\models\api\common\swagger\Meeting;
+use app\models\api\common\swagger\MeetingParticipant;
+use app\models\api\common\swagger\MeetingParticipantMeta;
+use app\services\meeting\contract\MeetingServiceInterface;
+use app\services\meeting\contract\models\MeetingParticipantInterface;
 use Swagger\Annotations as SWG;
 use Yii;
 
-class MeetingsController extends AbstractAjaxController
+class MeetingsController extends AbstractApiController
 {
     /**
      * @SWG\Get(path = "/meetings/{id}",
      *     tags = {"Meetings"},
+     *     security={
+     *         {"default": {}}
+     *     },
      *     summary = "Возвращает полную информацию о собрании по переданному идентификатору.",
      *     @SWG\Parameter(
      *         name = "id",

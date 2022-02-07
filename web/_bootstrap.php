@@ -18,3 +18,18 @@ Yii::$container->setDefinitions([
 	},
 ]);
 
+// user service
+Yii::$container->set(
+    \app\services\user\contract\UserServiceInterface::class,
+    \app\services\user\implementation\Service::class
+);
+Yii::$container->set(
+    \app\services\user\contract\UserRepositoryInterface::class,
+    \app\services\user\implementation\Repository::class
+);
+
+// email service
+Yii::$container->set(
+    \app\services\email\contract\EmailServiceInterface::class,
+    \app\services\email\implementation\Service::class
+);

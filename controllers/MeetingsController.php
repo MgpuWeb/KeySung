@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\api\common\swagger\Meeting;
+use app\models\User;
 use app\models\ajax\Meeting;
 use app\models\ajax\MeetingItem;
 use app\models\ajax\MeetingSummary;
@@ -14,7 +16,11 @@ class MeetingsController extends Controller
 {
     public function actionView(string $id)
     {
-    	/** @var ?Meeting $meeting */
+        /** @var User $user */
+        $user = Yii::$app->user->identity;
+        Yii::$app->request->headers->set('Authorization', "Bearer {$user->getAccessToken()}");
+
+        /** @var ?Meeting $meeting */
 		$meeting = Yii::$app->runAction("/ajax/meetings/view", ['id' => $id]);
 		Yii::$app->response->format = Response::FORMAT_HTML;
         return $this->render('view', [
