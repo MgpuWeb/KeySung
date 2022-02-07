@@ -13,6 +13,11 @@ $this->title = 'Собрание';
     <?php if ($meeting !== null): ?>
         <?= Html::a('Статистика', ['/meetings/summary', 'id' => $meeting->id], ['class'=>'btn btn-success']) ?>
         <?php Pjax::begin(['id' => 'meeting']); ?>
+        <?php if (empty($meeting->participants)): ?>
+        <div class="mt-5">
+            <h3 style="text-align: center">Кажется тут пока нет участников...</h3>
+        </div>
+        <?php endif; ?>
         <div class="row">
             <?php foreach ($meeting->participants as $index => $participant): ?>
             <div class="col mt-5">

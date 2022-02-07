@@ -14,7 +14,7 @@ $this->title = 'Список собраний';
     <?php
     echo GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+//        'filterModel' => $searchModel,
         'columns' => [
             ['class' => \yii\grid\SerialColumn::class],
             'id',
@@ -22,18 +22,18 @@ $this->title = 'Список собраний';
             [
                 'attribute' => 'createdAt',
                 'format' => 'text',
-                'filter' =>
-                    DateRangePicker::widget([
-                        'name'=>'createdAt',
-                        'convertFormat'=> true,
-                        'pluginOptions'=>[
-                            'locale'=>[
-                                'format'=>'d F y',
-                                'separator'=>' to ',
-                            ],
-                            'opens'=>'left'
-                        ]
-                    ]),
+//                'filter' =>
+//                    DateRangePicker::widget([
+//                        'name'=>'createdAt',
+//                        'convertFormat'=> true,
+//                        'pluginOptions'=>[
+//                            'locale'=>[
+//                                'format'=>'d F y',
+//                                'separator'=>' to ',
+//                            ],
+//                            'opens'=>'left'
+//                        ]
+//                    ]),
                 'content' => static function (\app\models\ajax\MeetingItem $data) {
                     return Yii::$app->formatter->asDatetime($data->createdAt, "php:d F Y");
                 }
