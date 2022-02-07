@@ -2,18 +2,15 @@
 
 namespace app\controllers\api\common;
 
-use app\models\ajax\Emotions;
-use app\models\ajax\Meeting;
-use app\models\ajax\MeetingItem;
-use app\models\ajax\MeetingParticipant;
-use app\models\ajax\MeetingParticipantMeta;
-use app\models\ajax\MeetingSummary;
-use app\models\ajax\MeetingSummaryParticipant;
-use app\services\meeting\contract;
-use app\controllers\api\AbstractApiController;
+use app\models\api\common\swagger\Emotions;
 use app\models\api\common\swagger\Meeting;
+use app\models\api\common\swagger\MeetingItem;
 use app\models\api\common\swagger\MeetingParticipant;
 use app\models\api\common\swagger\MeetingParticipantMeta;
+use app\models\api\common\swagger\MeetingSummary;
+use app\models\api\common\swagger\MeetingSummaryParticipant;
+use app\services\meeting\contract;
+use app\controllers\api\AbstractApiController;
 use app\services\meeting\contract\MeetingServiceInterface;
 use app\services\meeting\contract\models\MeetingParticipantInterface;
 use Swagger\Annotations as SWG;

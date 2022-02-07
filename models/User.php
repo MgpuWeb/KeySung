@@ -127,6 +127,7 @@ class User extends ActiveRecord implements IdentityInterface, UserInterface
             if ($this->isNewRecord) {
                 $this->remember_me_token = \Yii::$app->security->generateRandomString();
                 $this->email_confirmation_token = \Yii::$app->security->generateRandomString();
+                $this->access_token = \Yii::$app->security->generateRandomString();
             }
 
             return true;

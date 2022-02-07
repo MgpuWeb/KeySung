@@ -2,10 +2,11 @@
 
 namespace app\models\search;
 
+use app\models\User;
 use Yii;
 use yii\data\ArrayDataProvider;
 
-class MeetingItem extends \app\models\ajax\MeetingItem
+class MeetingItem extends \app\models\api\common\swagger\MeetingItem
 {
     public ?string $id = null;
     public ?string $externalId = null;
@@ -26,7 +27,11 @@ class MeetingItem extends \app\models\ajax\MeetingItem
             ],
         ]);
 
-        $dataProvider->allModels = Yii::$app->runAction("/ajax/meetings/collection");
+        /** @var User $user */
+        $user = Yii::$app->user->identity;
+        Yii::$app->request->headers->set('Authorization', "Bearer {$user->getAccessToken()}");
+
+        $dataProvider->allModels = Yii::$app->runAction("/api/common/meetings/collection");
         if (!$this->load($parameters) || !$this->validate()) {
             return $dataProvider;
         }

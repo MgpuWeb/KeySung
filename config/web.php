@@ -69,9 +69,9 @@ $config = [
                 'POST site/signup' => 'site/sign-up',
 
                 // meetings
+                'GET meetings' => 'meetings/collection',
 				'GET meetings/<id:\w+>' => 'meetings/view',
                 'GET meetings/<id:\w+>/summary' => 'meetings/summary',
-                'GET meetings' => 'meetings/collection',
 
                 // api/common
                 'POST api/auth/login' => 'api/common/auth/login',

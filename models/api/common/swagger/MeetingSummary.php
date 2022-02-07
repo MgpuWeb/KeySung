@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models\ajax;
+namespace app\models\api\common\swagger;
 
 use Swagger\Annotations as SWG;
 use yii\base\Model;

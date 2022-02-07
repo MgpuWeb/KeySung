@@ -34,13 +34,13 @@ $this->title = 'Список собраний';
 //                            'opens'=>'left'
 //                        ]
 //                    ]),
-                'content' => static function (\app\models\ajax\MeetingItem $data) {
+                'content' => static function (\app\models\api\common\swagger\MeetingItem $data) {
                     return Yii::$app->formatter->asDatetime($data->createdAt, "php:d F Y");
                 }
             ],
             [
                 'label' => 'Перейти к собранию',
-                'content' => static function (\app\models\ajax\MeetingItem $meeting) {
+                'content' => static function (\app\models\api\common\swagger\MeetingItem $meeting) {
                     return Html::a('Подробнее', ["/meetings/{$meeting->id}"], ['class' => 'btn btn-primary']);
                 },
             ]

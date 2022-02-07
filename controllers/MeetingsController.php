@@ -2,13 +2,10 @@
 
 namespace app\controllers;
 
-use app\models\api\common\swagger\Meeting;
 use app\models\User;
-use app\models\ajax\Meeting;
-use app\models\ajax\MeetingItem;
-use app\models\ajax\MeetingSummary;
+use app\models\api\common\swagger\Meeting;
+use app\models\api\common\swagger\MeetingSummary;
 use Yii;
-use yii\data\ArrayDataProvider;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -21,7 +18,7 @@ class MeetingsController extends Controller
         Yii::$app->request->headers->set('Authorization', "Bearer {$user->getAccessToken()}");
 
         /** @var ?Meeting $meeting */
-		$meeting = Yii::$app->runAction("/ajax/meetings/view", ['id' => $id]);
+		$meeting = Yii::$app->runAction("/api/common/meetings/view", ['id' => $id]);
 		Yii::$app->response->format = Response::FORMAT_HTML;
         return $this->render('view', [
         	'meeting' => $meeting
@@ -30,8 +27,12 @@ class MeetingsController extends Controller
 
     public function actionSummary(string $id)
     {
+        /** @var User $user */
+        $user = Yii::$app->user->identity;
+        Yii::$app->request->headers->set('Authorization', "Bearer {$user->getAccessToken()}");
+
         /** @var ?MeetingSummary $meetingSummary */
-        $meetingSummary = Yii::$app->runAction("/ajax/meetings/summary", ['id' => $id]);
+        $meetingSummary = Yii::$app->runAction("/api/common/meetings/summary", ['id' => $id]);
         Yii::$app->response->format = Response::FORMAT_HTML;
         return $this->render('summary', [
             'meetingSummary' => $meetingSummary

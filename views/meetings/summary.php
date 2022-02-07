@@ -1,11 +1,11 @@
 <?php
 
-use app\models\ajax\Meeting;
+use app\models\api\common\swagger\Meeting;
 use yii\bootstrap4\Html;
 use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
-/* @var \app\models\ajax\MeetingSummary $meetingSummary */
+/* @var \app\models\api\common\swagger\MeetingSummary $meetingSummary */
 
 $this->title = 'Статистика собрания';
 ?>
