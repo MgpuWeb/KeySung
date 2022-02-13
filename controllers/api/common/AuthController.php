@@ -6,6 +6,8 @@ use app\controllers\api\AbstractApiController;
 use app\models\api\common\swagger;
 use app\services\user\contract\UserServiceInterface;
 use Swagger\Annotations as SWG;
+use yii\web\NotFoundHttpException;
+use yii\web\UnauthorizedHttpException;
 
 class AuthController extends AbstractApiController
 {
@@ -31,6 +33,10 @@ class AuthController extends AbstractApiController
      *         response = 200,
      *         description = "Успешно авторизован.",
      *         @SWG\Schema(ref = "#/definitions/AuthResponseLogin")
+     *     ),
+     *     @SWG\Response(
+     *         response = 401,
+     *         description = "Не авторизован."
      *     )
      * )
      *
@@ -45,6 +51,11 @@ class AuthController extends AbstractApiController
         }
 
         $user = $userService->authenticate($request->email, $request->password);
+
+        if ($user === null) {
+            throw new UnauthorizedHttpException();
+        }
+
         return ['token' => $user->getAccessToken()];
     }
 }
