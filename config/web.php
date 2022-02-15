@@ -70,18 +70,23 @@ $config = [
 
                 // meetings
                 'GET meetings' => 'meetings/collection',
+                'OPTIONS meetings' => 'meetings/options',
 				'GET meetings/<id:\w+>' => 'meetings/view',
+				'OPTIONS meetings/<id:\w+>' => 'meetings/options',
                 'GET meetings/<id:\w+>/summary' => 'meetings/summary',
+                'OPTIONS meetings/<id:\w+>/summary' => 'meetings/options',
 
                 // api/common
                 'POST api/auth/login' => 'api/common/auth/login',
                 'OPTIONS api/auth/login' => 'api/common/auth/options',
 
 				'POST api/meetings' => 'api/common/meetings/create',
-                'OPTIONS api/meetings' => 'api/meetings/options',
 				'GET api/meetings/<id:\w+>' => 'api/common/meetings/view',
+				'OPTIONS api/meetings/<id:\w+>' => 'api/common/meetings/options',
                 'GET api/meetings/<id:\w+>/summary' => 'api/common/meetings/summary',
+                'OPTIONS api/meetings/<id:\w+>/summary' => 'api/common/meetings/options',
                 'GET api/meetings' => 'api/common/meetings/collection',
+                'OPTIONS api/meetings' => 'api/common/meetings/options',
 
 				// api/integration
 				'POST api/integration/meetings' => 'api/integration/meetings/create',
