@@ -88,6 +88,7 @@ $config = [
                 'OPTIONS api/integration/meetings' => 'api/integration/meetings/options',
 				'GET api/integration/meetings' => 'api/integration/meetings/collection',
 				'PUT api/integration/meetings/<id:\w+>' => 'api/integration/meetings/update',
+                'OPTIONS api/integration/meetings/<id:\w+>' => 'api/integration/meetings/options',
             ],
         ],
     ],
