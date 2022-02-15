@@ -37,7 +37,8 @@ abstract class AbstractApiController extends Controller
         $headers = Yii::$app->response->headers;
         $headers->set('Access-Control-Allow-Origin', '*');
         $headers->set('Access-Control-Max-Age', 3600);
-        $headers->set('Access-Control-Allow-Methods', 'GET, OPTIONS, POST, DELETE, PUT, HEAD, PATCH');
+        $headers->set('Access-Control-Allow-Methods', ['GET', 'OPTIONS', 'POST', 'DELETE', 'PUT', 'HEAD', 'PATCH']);
+        $headers->set('Access-Control-Allow-Headers', ['Origin', 'X-Requested-With', 'Content-Type', 'accept', 'Authorization']);
 
         return parent::beforeAction($action);
     }
