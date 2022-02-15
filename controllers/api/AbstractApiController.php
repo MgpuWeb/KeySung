@@ -4,6 +4,7 @@ namespace app\controllers\api;
 
 use Yii;
 use yii\filters\Cors;
+use yii\rest\OptionsAction;
 use yii\web\Controller;
 use yii\web\Response;
 
@@ -14,9 +15,19 @@ abstract class AbstractApiController extends Controller
 		return [
 			'authenticator' => [
 				'class' => \yii\filters\auth\HttpBearerAuth::class,
+                'except' => ['options']
 			],
 		];
 	}
+
+    public function actions()
+    {
+        return [
+            'options' => [
+                'class' => OptionsAction::class,
+            ],
+        ];
+    }
 
 	public function beforeAction($action)
     {
@@ -28,6 +39,6 @@ abstract class AbstractApiController extends Controller
         $headers->set('Access-Control-Max-Age', 3600);
         $headers->set('Access-Control-Allow-Methods', 'GET, OPTIONS, POST, DELETE, PUT, HEAD, PATCH');
 
-        parent::beforeAction($action);
+        return parent::beforeAction($action);
     }
 }

@@ -8,12 +8,15 @@ use app\services\user\contract\UserServiceInterface;
 use Swagger\Annotations as SWG;
 use yii\web\NotFoundHttpException;
 use yii\web\UnauthorizedHttpException;
+use yii\rest\OptionsAction;
 
 class AuthController extends AbstractApiController
 {
     public function behaviors()
     {
-        return [];
+        $parent = parent::behaviors();
+        unset($parent['authenticator']);
+        return $parent;
     }
 
     /**

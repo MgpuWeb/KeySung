@@ -75,14 +75,17 @@ $config = [
 
                 // api/common
                 'POST api/auth/login' => 'api/common/auth/login',
+                'OPTIONS api/auth/login' => 'api/common/auth/options',
 
 				'POST api/meetings' => 'api/common/meetings/create',
+                'OPTIONS api/meetings' => 'api/meetings/options',
 				'GET api/meetings/<id:\w+>' => 'api/common/meetings/view',
                 'GET api/meetings/<id:\w+>/summary' => 'api/common/meetings/summary',
                 'GET api/meetings' => 'api/common/meetings/collection',
 
 				// api/integration
 				'POST api/integration/meetings' => 'api/integration/meetings/create',
+                'OPTIONS api/integration/meetings' => 'api/integration/meetings/options',
 				'GET api/integration/meetings' => 'api/integration/meetings/collection',
 				'PUT api/integration/meetings/<id:\w+>' => 'api/integration/meetings/update',
             ],
