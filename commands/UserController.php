@@ -3,6 +3,7 @@
 namespace app\commands;
 
 use app\models\User;
+use Ramsey\Uuid\Uuid;
 use yii\console\Controller;
 use yii\console\ExitCode;
 use yii\helpers\Console;
@@ -11,7 +12,7 @@ class UserController extends Controller
 {
 	public function actionCreate(string $email = 'testUser@email.ru', string $password = 'testPassword')
 	{
-	    $accessToken = \Yii::$app->security->generateRandomString();
+	    $accessToken = Uuid::uuid4();
 		$user = new User([
 			'email' => $email,
 			'password' => \Yii::$app->getSecurity()->generatePasswordHash($password),
